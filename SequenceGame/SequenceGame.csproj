@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug-Windows</Configuration>
+    <ProjectGuid>{A9DCAC72-BC77-4C33-BE70-BBFD31D7C798}</ProjectGuid>
+    <RootNamespace>MyGame</RootNamespace>
+    <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
+    <AssemblyName>MyGame</AssemblyName>
+    <SuppressXamMacUpsell>True</SuppressXamMacUpsell>
+    <SuppressXamMacMigration>True</SuppressXamMacMigration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputType>Exe</OutputType>
+    <ApplicationIcon>Resources\SwinGame.ico</ApplicationIcon>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-Windows|x86' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <EnableCodeSigning>false</EnableCodeSigning>
+    <CreatePackage>false</CreatePackage>
+    <EnablePackageSigning>false</EnablePackageSigning>
+    <IncludeMonoRuntime>false</IncludeMonoRuntime>
+    <UseSGen>false</UseSGen>
+    <UseRefCounting>false</UseRefCounting>
+    <Profiling>false</Profiling>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <OutputType>WinExe</OutputType>
+  </PropertyGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PrepareForRunDependsOn>$(PrepareForRunDependsOn);CopyLibsToOut</PrepareForRunDependsOn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Card.cs" />
+    <Compile Include="CardDeck.cs" />
+    <Compile Include="Cell.cs" />
+    <Compile Include="Chip.cs" />
+    <Compile Include="CurrentScreenType.cs" />
+    <Compile Include="GameState.cs" />
+    <Compile Include="IHaveCells.cs" />
+    <Compile Include="Menu.cs" />
+    <Compile Include="PlayerColors.cs" />
+    <Compile Include="GameMaster.cs" />
+    <Compile Include="Hand.cs" />
+    <Compile Include="JackOneEye.cs" />
+    <Compile Include="JackTwoEyes.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="NormalCard.cs" />
+    <Compile Include="Rank.cs" />
+    <Compile Include="src\GameMain.cs" />
+    <Compile Include="Suit.cs" />
+    <Compile Include="TheBoard.cs" />
+    <Compile Include="Program.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="SwinGame">
+      <HintPath>lib\SwinGame.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\fonts\Chelsea.ttf" />
+    <WinLibs Include="lib\win32\*.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\BackToGame.png" />
+    <Content Include="Resources\images\Background1.png" />
+    <Content Include="Resources\images\BackOfCard.bmp" />
+    <Content Include="Resources\images\Background.png" />
+    <Content Include="Resources\images\BlueChip.png" />
+    <Content Include="Resources\images\BluePlayer.png" />
+    <Content Include="Resources\images\c01.bmp" />
+    <Content Include="Resources\images\c02.bmp" />
+    <Content Include="Resources\images\c03.bmp" />
+    <Content Include="Resources\images\c04.bmp" />
+    <Content Include="Resources\images\c05.bmp" />
+    <Content Include="Resources\images\c06.bmp" />
+    <Content Include="Resources\images\c07.bmp" />
+    <Content Include="Resources\images\c08.bmp" />
+    <Content Include="Resources\images\c09.bmp" />
+    <Content Include="Resources\images\c10.bmp" />
+    <Content Include="Resources\images\c11.bmp" />
+    <Content Include="Resources\images\c12.bmp" />
+    <Content Include="Resources\images\c13.bmp" />
+    <Content Include="Resources\images\card-BMPs\ReverseButton.png" />
+    <Content Include="Resources\images\d01.bmp" />
+    <Content Include="Resources\images\d02.bmp" />
+    <Content Include="Resources\images\d03.bmp" />
+    <Content Include="Resources\images\d04.bmp" />
+    <Content Include="Resources\images\d05.bmp" />
+    <Content Include="Resources\images\d06.bmp" />
+    <Content Include="Resources\images\d07.bmp" />
+    <Content Include="Resources\images\d08.bmp" />
+    <Content Include="Resources\images\d09.bmp" />
+    <Content Include="Resources\images\d10.bmp" />
+    <Content Include="Resources\images\d11.bmp" />
+    <Content Include="Resources\images\d12.bmp" />
+    <Content Include="Resources\images\d13.bmp" />
+    <Content Include="Resources\images\DiscardBin.png" />
+    <Content Include="Resources\images\GreenChip.png" />
+    <Content Include="Resources\images\GreenPlayer.png" />
+    <Content Include="Resources\images\h01.bmp" />
+    <Content Include="Resources\images\h02.bmp" />
+    <Content Include="Resources\images\h03.bmp" />
+    <Content Include="Resources\images\h04.bmp" />
+    <Content Include="Resources\images\h05.bmp" />
+    <Content Include="Resources\images\h06.bmp" />
+    <Content Include="Resources\images\h07.bmp" />
+    <Content Include="Resources\images\h08.bmp" />
+    <Content Include="Resources\images\h09.bmp" />
+    <Content Include="Resources\images\h10.bmp" />
+    <Content Include="Resources\images\h11.bmp" />
+    <Content Include="Resources\images\h12.bmp" />
+    <Content Include="Resources\images\h13.bmp" />
+    <Content Include="Resources\images\New_game.png" />
+    <Content Include="Resources\images\Quit.png" />
+    <Content Include="Resources\images\ResetButton.png" />
+    <Content Include="Resources\images\s01.bmp" />
+    <Content Include="Resources\images\s02.bmp" />
+    <Content Include="Resources\images\s03.bmp" />
+    <Content Include="Resources\images\s04.bmp" />
+    <Content Include="Resources\images\s05.bmp" />
+    <Content Include="Resources\images\s06.bmp" />
+    <Content Include="Resources\images\s07.bmp" />
+    <Content Include="Resources\images\s08.bmp" />
+    <Content Include="Resources\images\s09.bmp" />
+    <Content Include="Resources\images\s10.bmp" />
+    <Content Include="Resources\images\s11.bmp" />
+    <Content Include="Resources\images\s12.bmp" />
+    <Content Include="Resources\images\s13.bmp" />
+    <Content Include="Resources\images\TheBoard.png" />
+    <Content Include="Resources\MainMenuBig.png" />
+  </ItemGroup>
+  <Target Name="CopyLibsToOut">
+    <Copy SourceFiles="@(WinLibs)" DestinationFolder="$(OutDir)" />
+  </Target>
+</Project>
