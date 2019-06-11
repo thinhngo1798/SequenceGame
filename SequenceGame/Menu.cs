@@ -21,42 +21,38 @@ namespace MyGame
         /// Handle game in Menu Screen (SECOND level)
         /// </summary>
         /// <param name="point"></param>
-        /// <param name="screen"></param>
-        public void HandleTheGameInMenu(Point2D point, Program screen)
+        /// <param name="program"></param>
+        public void HandleTheGameInMenu(Point2D point, Program program)
         {
             if (SwinGame.PointInRect(point, TOP_BUTTON_X, TOP_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT))
             {
-                //screen.GameMaster.ReleaseGame();
-
-                //screen.InitializeTheGame();
                 bool WasTheGameIsReleased = false;
-                if (screen.GameMaster != null)
+                if (program.GameMaster!=null)
                 {
-                    screen.ReleaseGame();
+                    program.ReleaseGame();
                     WasTheGameIsReleased = true;
                 }
-                screen.InitializeTheGame();
+                program.InitializeTheGame();
                 if (WasTheGameIsReleased)
-                screen.GameMaster.SetUpGame();
-                screen.ChangeScreenViewing(ProgramState.PLAYINGGAME);
+                program.GameMaster.SetUpGame();
+                program.ChangProgramState(ProgramState.PLAYINGGAME);
             }
             if (SwinGame.PointInRect(point, BOTTOM_BUTTON_X, BOTTOM_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT))
             {
-                screen.InitializeTheGame();
-                //screen.GameMaster.ReleaseCardInCells();
-                screen.GameMaster.LoadGame();
-                screen.ChangeScreenViewing(ProgramState.PLAYINGGAME);
+                program.InitializeTheGame();
+                program.GameMaster.LoadGame();
+                program.ChangProgramState(ProgramState.PLAYINGGAME);
             }
             if (SwinGame.PointInRect(point, MIDDLE_BUTTON_X, MIDDLE_BUTTON_Y,BUTTON_WIDTH,BUTTON_HEIGHT))
             {
-                screen.ChangeScreenViewing(ProgramState.QUITTING);
+                program.ChangProgramState(ProgramState.QUITTING);
             }
             
         }
         public void DrawMenu()
         {
-            SwinGame.DrawBitmap(SwinGame.BitmapNamed("Background"), 0,0);
-            SwinGame.DrawBitmap(SwinGame.BitmapNamed("Newgame"), TOP_BUTTON_X, TOP_BUTTON_Y);
+           SwinGame.DrawBitmap(SwinGame.BitmapNamed("Background"), 0,0);
+           SwinGame.DrawBitmap(SwinGame.BitmapNamed("Newgame"), TOP_BUTTON_X, TOP_BUTTON_Y);
            SwinGame.DrawBitmap(SwinGame.BitmapNamed("Quit"), MIDDLE_BUTTON_X, MIDDLE_BUTTON_Y);
            SwinGame.DrawBitmap(SwinGame.BitmapNamed("LoadGame"), BOTTOM_BUTTON_X, BOTTOM_BUTTON_Y);
 

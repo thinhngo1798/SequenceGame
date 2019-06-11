@@ -40,7 +40,7 @@
     <Compile Include="CardDeck.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="Chip.cs" />
-    <Compile Include="CurrentScreenType.cs" />
+    <Compile Include="ProgramState.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="IHaveCells.cs" />
     <Compile Include="Menu.cs" />

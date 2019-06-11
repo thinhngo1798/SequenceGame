@@ -9,22 +9,14 @@ namespace MyGame
 {
     public class Chip
     {
-       // public const int BOTTOM_LEFT_CELL_X = 45;
-        //public const int BOTTOM_LEFT_CELL_Y = 448;
-        //public const int CELL_WIDTH = 58;
-
-        //private int _x;
-        //private int _y;
+        private const int X_SMALL_DISTANCE = 15;
+        private const int Y_SMALL_DISTANCE = 10;
         private PlayerColors _chipColor;
-       // private bool _isChosen;
-
         public Chip(PlayerColors color)
         {
             _chipColor = color;
         }
-
-        //public int X { get => _x; set => _x = value; }
-        //public int Y { get => _y; set => _y = value; }
+        
         public PlayerColors ChipColor { get => _chipColor; set => _chipColor = value; }
 
         public Bitmap MyBitMap()
@@ -52,7 +44,7 @@ namespace MyGame
         }
         public void Draw(int x, int y)
         {
-            SwinGame.DrawBitmap(MyBitMap(), x+15, y+10);
+            SwinGame.DrawBitmap(MyBitMap(), x+X_SMALL_DISTANCE, y+Y_SMALL_DISTANCE);
         }
     }
 }

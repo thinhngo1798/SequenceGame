@@ -8,8 +8,6 @@ namespace MyGame
 {
     public abstract class Card
     {
-        //Change later
-        
         public const int CARD_WIDTH = 70;
         public const int CARD_HEIGHT = 96;
         private int _x;
@@ -56,7 +54,6 @@ namespace MyGame
         }
         
         public abstract Bitmap MyBitMap();
-        
         public abstract void Draw(int x, int y);
 		public void DrawFaceDown(int x, int y)
         {

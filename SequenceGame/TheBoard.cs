@@ -11,9 +11,6 @@ namespace MyGame
 {
     public class TheBoard: IHaveCells
     {
-        
-        //private const int _WIDTH = 10;
-        //private const int _HEIGHT = 10;
         private const int _STARTX=0;
         private const int _STARTY=0;
         private const int _XDISTANCE=70;
@@ -21,11 +18,13 @@ namespace MyGame
         private const int _NUMBEROFCHIPSTOWIN = 5;
         private const int _SMALLDISTANCE = 10;
         private List<Cell> _cells = new List<Cell>();
-
+        private List<string> _commandHistory;
         /// <summary>
         /// Create list of cells, cells mean card with position
         /// </summary>
         public List<Cell> Cells { get => _cells; set => _cells = value; }
+        public List<string> CommandHistory { get => _commandHistory; set => _commandHistory = value; }
+
         /// <summary>
         /// Initializing the board in the construtor
         /// </summary>
@@ -175,16 +174,15 @@ namespace MyGame
                 if (cell.IsChipAt())
                     cell.DrawTheChipInTheCell();
                 if (cell.IsSelected())
-                    cell.DrawOutLine();
+                    cell.DrawOutLineInBoard();
             }
-
         }
        
         public void DrawOutLineCell()
         {
             foreach (Cell cell in Cells)
             {
-                cell.DrawOutLine();
+                cell.DrawOutLineInBoard();
             }
         }
         /// <summary>
@@ -214,9 +212,6 @@ namespace MyGame
             }
             return null;
         }
-        private List<string> _commandHistory;
-        public List<string> CommandHistory { get => _commandHistory; set => _commandHistory = value; }
-
         public void TakingAction(Player player,Cell cellInBoard, string action)
         {
             //Place the current player's color.
@@ -231,9 +226,11 @@ namespace MyGame
             }
             int indexOfCellInBoard = cellInBoard.Row * 10 + cellInBoard.Column;
             CommandHistory.Add($"{player.IndexOfPlayer.ToString()},{action},{indexOfCellInBoard.ToString()}");
-
-
         }
+        /// <summary>
+        /// Going back 1 step
+        /// </summary>
+        /// <param name="gameMaster"></param>
         public void RedoAction(GameMaster gameMaster)
         {
             if (CommandHistory.Count == 0)
@@ -253,6 +250,10 @@ namespace MyGame
             gameMaster.ChangeTurn();
             gameMaster.TurnHandUpSideDown();
         }
+        /// <summary>
+        /// Reset the game
+        /// </summary>
+        /// <param name="gameMaster"></param>
         public void ResetAction(GameMaster gameMaster)
         {
             while (CommandHistory.Count != 0)
@@ -275,6 +276,9 @@ namespace MyGame
                 cell.Load(reader);
             }
         }
+        /// <summary>
+        /// Set the card of all cells to null.
+        /// </summary>
         public void ReleaseCardInCells()
         {
             foreach (Cell cell in Cells)

@@ -39,13 +39,6 @@ namespace MyGame
             }
             
         }
-        
-
-    public void RemoveAndPutIN(Cell removeCell,Cell addCell)
-    {
-            Cells.Remove(removeCell);
-            Cells.Add(addCell);
-    }
     public void RemoveACardInChosenCellAndAddNewOne(Cell cell,Card card)
     {
         cell.CardInCell = null;
@@ -57,14 +50,13 @@ namespace MyGame
     /// </summary>
     public void DrawCells()
     {
-
         foreach (Cell c in Cells)
         {
             c.Draw();
             if (c.IsChipAt())
                 c.DrawTheChipInTheCell();
             if (c.IsSelected())
-                c.DraOutLineForHand();
+                c.DraOutLineInHand();
         }
 
     }
@@ -80,14 +72,19 @@ namespace MyGame
             {
                 if (SwinGame.PointInRect(pt, c.X, c.Y, Card.CARD_WIDTH, Card.CARD_HEIGHT))
                 {
-                c.DraOutLineForHand();
+                c.DraOutLineInHand();
                 
                 return c;
                 }
             }
         return null;
     }
-        public Cell FetchACell(int column)
+        /// <summary>
+        /// Return a cell by its column in Hand
+        /// </summary>
+        /// <param name="column"></param>
+        /// <returns></returns>
+    public Cell FetchACell(int column)
         {
             foreach (Cell c in Cells)
             { if (c.Column == column)
@@ -95,6 +92,9 @@ namespace MyGame
             }
             return null;
         }
+        /// <summary>
+        /// Turn all the cards in hand up side down
+        /// </summary>
     public void TurnOverAllCardsInHand()
     {
         foreach (Cell cell in Cells)
@@ -123,8 +123,7 @@ namespace MyGame
                 cell.CardInCell = null;
             }
         }
-
-
+        
     }
 }
 

@@ -47,10 +47,12 @@ namespace MyGame
         public CardDeck BoardDeck { get => _boardDeck; set => _boardDeck = value; }
         public Stack<Card> DiscardPile { get => _discardPile; set => _discardPile = value; }
         public Stack<string> DiscardHistory { get => _discardHistory; set => _discardHistory = value; }
+        public string WinMessage { get => _winMessage; set => _winMessage = value; }
+        public int IndexOfPlayerPlaying { get => _indexOfPlayerPlaying; set => _indexOfPlayerPlaying = value; }
+        public int IndexOfPlayerWaiting { get => _indexOfPlayerWaiting; set => _indexOfPlayerWaiting = value; }
+        public PlayerColors WinColor { get => _winColor; set => _winColor = value; }
 
-
-
-        private static readonly GameMaster instance = new GameMaster();
+        private static readonly GameMaster _instance = new GameMaster();
         /// <summary>
         /// Singleton Patter
         /// </summary>
@@ -58,7 +60,7 @@ namespace MyGame
         {
             get
             {
-                return instance;
+                return _instance;
             }
         }
         private GameMaster()
@@ -102,21 +104,18 @@ namespace MyGame
             IndexOfPlayerPlaying = IndexOfPlayerWaiting;
             IndexOfPlayerWaiting = tempTurn;
         }
-        //Clear piece registry?
-
-        ////Add Random card to player hand
-        //public void GetNewCard()
-        //{
-        //    Players[_indexOfPlayerPlaying].PlayerHand.Put(Board.CardDeck.DealTheCard());
-        //}
-        //Set everything back to 0 before create a new game
+        /// <summary>
+        /// Release card in cells of both board and hands.
+        /// </summary>
         public void ReleaseCardInCells()
         {
             Players[0].RealeaseCardInCellsInHand();
             Players[1].RealeaseCardInCellsInHand();
             Board.ReleaseCardInCells();
         }
-        //Set up game
+        /// <summary>
+        /// Set up game
+        /// </summary>
         public void SetUpGame()
         {
             BoardDeck = new CardDeck();
@@ -130,9 +129,7 @@ namespace MyGame
 
             }
             for (int i = 0; i < 10; i++)
-            {
-                //PlayDeck.DeckOfCard.Add(new JackOneEye(Suit.Heart, Rank.Jack));
-                //PlayDeck.DeckOfCard.Add(new JackOneEye(Suit.Spades, Rank.Jack));
+            { 
                 PlayDeck.DeckOfCard.Add(new JackTwoEyes(Suit.Clubs, Rank.Jack));
                 PlayDeck.DeckOfCard.Add(new JackTwoEyes(Suit.Diamonds, Rank.Jack));
             }
@@ -168,7 +165,7 @@ namespace MyGame
                 Board.DrawCells();
                 Players[0].DrawCellsInHand();
                 Players[1].DrawCellsInHand();
-                SwinGame.DrawBitmap(SwinGame.BitmapNamed("DiscardBin.png"), Card.CARD_WIDTH * 12, Card.CARD_HEIGHT * 6);
+                SwinGame.DrawBitmap(SwinGame.BitmapNamed("DiscardBin.png"), (int)(Card.CARD_WIDTH * 12.5) +10, Card.CARD_HEIGHT * 6+30);
                 if (DiscardPile.Count == 0)
                     SwinGame.DrawBitmap(SwinGame.BitmapNamed("BackOfCard.bmp"), Card.CARD_WIDTH * 12 + Card.CARD_WIDTH / 2, Card.CARD_HEIGHT * 7);
                 else
@@ -183,27 +180,30 @@ namespace MyGame
             }
             else
             {
-                    if (WinColor==PlayerColors.Blue)
-                SwinGame.DrawText(WinMessage,Color.Blue , SwinGame.FontNamed("arial"), TOP_BUTTON_X+50,TOP_BUTTON_Y-100);
-                    else
-                SwinGame.DrawText(WinMessage, Color.Green, SwinGame.FontNamed("Chelsea"), TOP_BUTTON_X + 100, TOP_BUTTON_Y - 100);
+                if (WinColor == PlayerColors.Blue)
+                    SwinGame.DrawText(WinMessage, Color.Blue, SwinGame.FontNamed("arial"), TOP_BUTTON_X + 50, TOP_BUTTON_Y - 100);
+                else
+                {
+                    SwinGame.DrawText(WinMessage, Color.Green, SwinGame.FontNamed("Chelsea"), TOP_BUTTON_X + 100, TOP_BUTTON_Y - 100);
+                }
                 SwinGame.DrawBitmap(SwinGame.BitmapNamed("BackToGame"), TOP_BUTTON_X, TOP_BUTTON_Y);
                 SwinGame.DrawBitmap(SwinGame.BitmapNamed("MainMenuBig"), MIDDLE_BUTTON_X, MIDDLE_BUTTON_Y);
                 SwinGame.DrawBitmap(SwinGame.BitmapNamed("Quit"), BOTTOM_BUTTON_X, BOTTOM_BUTTON_Y);
             }
 
         }
-        public Bitmap MyBitMap()
-        {
-            return SwinGame.BitmapNamed("Background1.png");
-        }
+        /// <summary>
+        /// Draw Background in Playing Screen
+        /// </summary>
         public void DrawBackground()
         {
-            SwinGame.DrawBitmap(this.MyBitMap(), 0, 0);
+            SwinGame.DrawBitmap(SwinGame.BitmapNamed("Background1.png"), 0, 0);
             SwinGame.DrawBitmap(SwinGame.BitmapNamed("BluePlayer.png"), 0, Card.CARD_HEIGHT * 7);
             SwinGame.DrawBitmap(SwinGame.BitmapNamed("GreenPlayer.png"), (int)(Card.CARD_WIDTH * 10.5), 0);
         }
-        // Return the player in turn\?
+        /// <summary>
+        /// Return player who has the playing index.
+        /// </summary>
         public Player PlayerInturn
         {
             get
@@ -211,7 +211,7 @@ namespace MyGame
                 return _players[IndexOfPlayerPlaying];
             }
         }
-        // Get the array of players?
+
         public Player[] PlayersArray
         {
             get
@@ -219,18 +219,18 @@ namespace MyGame
                 return _players;
             }
         }
-
-        public string WinMessage { get => _winMessage; set => _winMessage = value; }
-        public int IndexOfPlayerPlaying { get => _indexOfPlayerPlaying; set => _indexOfPlayerPlaying = value; }
-        public int IndexOfPlayerWaiting { get => _indexOfPlayerWaiting; set => _indexOfPlayerWaiting = value; }
-        public PlayerColors WinColor { get => _winColor; set => _winColor = value; }
-
-
-        //Take the turn for each player Control the player to take turn
+        /// <summary>
+        /// The player take the turn and then player'opponent take the turn. It is symmetric
+        /// </summary>
+        /// <param name="pt"></param>
         public void TakeTheTurn(Point2D pt)
         {
             Players[IndexOfPlayerPlaying].TakeTurn(pt, this);
         }
+        /// <summary>
+        /// Handle the game when player click Redo button in Playing Screen
+        /// </summary>
+        /// <param name="pt"></param>
         public void RedoButton(Point2D pt)
         {
             if (SwinGame.PointInRect(pt, REDO_X, REDO_Y, 40, 40))
@@ -243,6 +243,9 @@ namespace MyGame
                 ChangeState(GameState.TemporaryState);
             }
         }
+        /// <summary>
+        /// Redo when the player press redo button
+        /// </summary>
         public void RedoForDiscardPile()
         {
             if (DiscardHistory.Count == 0)
@@ -256,10 +259,13 @@ namespace MyGame
             else
                 Players[playerIndex].PlayerHand.RemoveACardInChosenCellAndAddNewOne(CellToReplace, DiscardPile.Pop());
         }
+        /// <summary>
+        /// Reset the game when player click Reset button
+        /// </summary>
+        /// <param name="pt"></param>
         public void ResetButton(Point2D pt)
         {
             if (SwinGame.PointInRect(pt, RESET_X, RESET_Y, 40, 40))
-
             {
                 Board.ResetAction(this);
                 while (DiscardHistory.Count != 0)
@@ -268,40 +274,42 @@ namespace MyGame
                 }
             }
         }
-        public void SaveButton(Point2D pt)
-        {
-            if (SwinGame.PointInRect(pt, SAVE_X, SAVE_Y, 40, 40))
-            {
-                StreamWriter writter = new StreamWriter(FILE_NAME);
-                writter.AutoFlush = true;
-                writter.WriteLine(Currentstate);
-                writter.WriteLine(IndexOfPlayerPlaying);
-                Players[IndexOfPlayerPlaying].SaveTheHand(writter);
-                Players[IndexOfPlayerWaiting].SaveTheHand(writter);
-                Board.SaveCells(writter);
-                writter.Close();
-            }
-        }
+        /// <summary>
+        /// Going back to Main Menu when starting the game. 
+        /// User can select loading the old game or quit the game.
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <param name="program"></param>
         public void MainMenuButton(Point2D pt, Program program)
         {
             if (SwinGame.PointInRect(pt, MAIN_MENU_X, MAIN_MENU_Y, MAIN_MENU_WIDTH, MAIN_MENU_HEIGHT))
-                program.ChangeScreenViewing(ProgramState.MENU);
+                program.ChangProgramState(ProgramState.MENU);
         }
+        /// <summary>
+        /// When 1 player has won the game, there will be 3 choices for user to choose
+        /// This method handles the input from user.
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <param name="program"></param>
         public void HandleInputInWinScreen(Point2D pt,Program program)
         {
             if (SwinGame.PointInRect(pt, TOP_BUTTON_X, TOP_BUTTON_Y,BUTTON_WIDTH , BUTTON_HEIGHT))
                 ChangeState(GameState.Done);
             if (SwinGame.PointInRect(pt, MIDDLE_BUTTON_X, MIDDLE_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT))
-            { program.ChangeScreenViewing(ProgramState.MENU);
+            { program.ChangProgramState(ProgramState.MENU);
                 ChangeState(GameState.Done);
             }
             if (SwinGame.PointInRect(pt, BOTTOM_BUTTON_X, BOTTOM_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT))
             {
-                program.ChangeScreenViewing(ProgramState.QUITTING);
+                program.ChangProgramState(ProgramState.QUITTING);
             }
 
         }
-        //Fetch the Card in Player'Hand
+        /// <summary>
+        ///Fetch the Card in Player'Hand
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <returns></returns>
         public Cell FetchTheCellInHAnd(Point2D pt)
         {
             return Players[IndexOfPlayerPlaying].PlayerHand.FetchACell(pt);
@@ -311,7 +319,10 @@ namespace MyGame
             return Board.FetchACell(pt);
         }
 
-        //Update the game
+        /// <summary>
+        /// Update the state of the game. It checks whether the playdeck has been expired and fill it up.
+        /// It also checks have any players won the game.
+        /// </summary>
         public void Update()
         {
             if (PlayDeck.DeckOfCard.Count==0)
@@ -348,6 +359,9 @@ namespace MyGame
 
             }
         }
+        /// <summary>
+        /// Turn all the cards of the hand of 1 player. It is to clarify which player is on the turn.
+        /// </summary>
         public void TurnHandUpSideDown()
         {
             if (!Players[IndexOfPlayerPlaying].PlayerHand.Cells[1].IsFaceUp)
@@ -355,6 +369,27 @@ namespace MyGame
             if (Players[IndexOfPlayerWaiting].PlayerHand.Cells[1].IsFaceUp)
                 Players[IndexOfPlayerWaiting].PlayerHand.TurnOverAllCardsInHand();
         }
+        /// <summary>
+        /// Save the game when player click Save button in the playing screen
+        /// </summary>
+        /// <param name="pt"></param>
+        public void SaveButton(Point2D pt)
+        {
+            if (SwinGame.PointInRect(pt, SAVE_X, SAVE_Y, 40, 40))
+            {
+                StreamWriter writter = new StreamWriter(FILE_NAME);
+                writter.AutoFlush = true;
+                writter.WriteLine(Currentstate);
+                writter.WriteLine(IndexOfPlayerPlaying);
+                Players[IndexOfPlayerPlaying].SaveTheHand(writter);
+                Players[IndexOfPlayerWaiting].SaveTheHand(writter);
+                Board.SaveCells(writter);
+                writter.Close();
+            }
+        }
+        /// <summary>
+        /// Load the old game which users saved before.
+        /// </summary>
         public void LoadGame()
         {if (Board.Cells!=null)
             ReleaseCardInCells();
@@ -373,6 +408,7 @@ namespace MyGame
             Board.LoadCells(reader);
             reader.Close();
         }
+      
     }
 }
 

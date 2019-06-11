@@ -13,14 +13,15 @@ namespace MyGame
         private Menu _menu;
         public GameMaster GameMaster { get => _gameMaster; set => _gameMaster = value; }
         public ProgramState ProgramState { get => _programState; set => _programState = value; }
+        public Menu Menu { get => _menu; set => _menu = value; }
 
         public Program()
         {
             _programState = ProgramState.MENU;
-            _menu = new Menu();
+            Menu = new Menu(); 
         }
         /// <summary>
-        /// Create Instance of Game Master
+        /// Create Instance of Game Master. It only happens once.
         /// </summary>
         public void InitializeTheGame()
         {
@@ -138,7 +139,7 @@ namespace MyGame
                 case (MyGame.ProgramState.MENU):
                     {
                         if (SwinGame.MouseClicked(MouseButton.LeftButton))
-                            _menu.HandleTheGameInMenu(SwinGame.MousePosition(), this);
+                            Menu.HandleTheGameInMenu(SwinGame.MousePosition(), this);
                         break;
 
                     }
@@ -185,7 +186,7 @@ namespace MyGame
             switch (_programState)
             {
                 case ProgramState.MENU:
-                    _menu.DrawMenu();
+                    Menu.DrawMenu();
                     break;
                 case ProgramState.PLAYINGGAME:
                     GameMaster.DrawEverything();
@@ -194,8 +195,11 @@ namespace MyGame
                     break;
             }
         }
-
-        public void ChangeScreenViewing(ProgramState screenState)
+        /// <summary>
+        /// Change the view screen depends on the program state
+        /// </summary>
+        /// <param name="screenState"></param>
+        public void ChangProgramState(ProgramState screenState)
         {
             ProgramState = screenState;
         }

@@ -22,7 +22,6 @@ namespace MyGame
         private Card _cardInCell;
         private bool _selected = false;
         private bool _isFaceUp;
-
         private PlayerColors _playerColor;
 
         public int Column { get => _column; set => _column = value; }
@@ -32,33 +31,38 @@ namespace MyGame
         public int Y { get => _y; set => _y = value; }
         public Card CardInCell { get => _cardInCell; set => _cardInCell = value; }
         public bool IsFaceUp { get => _isFaceUp; set => _isFaceUp = value; }
+        public bool Selected { get => _selected; set => _selected = value; }
+        public PlayerColors PlayerColor { get => _playerColor; set => _playerColor = value; }
 
 
-        //public int CellWidth { get => _cellWidth; set => _cellWidth = value; }
-        //public int CellHeight { get => _cellHeight; set => _cellHeight = value; }
-
-        //<summary>
-        //Constructor of the cell
+        /// <summary>
+        /// Constructor of the cell
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="c"></param>
+        /// <param name="chip"></param>
         public Cell (int x, int y,Card c, Chip chip)
         {
             X = x;
             Y = y;
-            
-            //CellWidth = width;
-            //CellHeight = height;
             CardInCell = c;
             _chip = chip;
             _isFaceUp = true;
         }
-        //<summary>
-        //Check whether the cell has a chip in it.
+
+        /// <summary>
+        /// Check whether the cell has a chip in it.
+        /// </summary>
+        /// <returns></returns>
         public bool IsChipAt()
         {
             return (Chip != null);
         }
 
-        //<summary>
-        //Remove a chip from the cell
+        /// <summary>
+        /// Remove a chip from the cell
+        /// </summary>
         public void RemoveChip()
         {
             Chip = null;
@@ -69,37 +73,32 @@ namespace MyGame
         }
         public void DrawTheChipInTheCell()
         {
-            Chip.Draw(X,Y);
+            Chip.Draw(X, Y);
         }
-
-        ////Check whether the cell is chosen
-        //public bool IsChosen(Point2D pt)
-        //{
-        //   return SwinGame.PointInRect(pt,X,Y, CELL_WIDTH, (CELL_HEIGHT / 2));
-        //}
+        /// <summary>
+        /// Check whether the cell is chosen
+        /// </summary>
         public void MarkCellSelected()
         {
-            _selected = true;
+            Selected = true;
         }
         public void MarkCellUnSelected()
         {
-            _selected = false;
+            Selected = false;
         }
         public bool IsSelected()
         {
-            return _selected; 
+            return Selected; 
         }
-        
-
-      
-        //<summary>
-        //Draw outline of the cell when player chooses it to mark the chip on
-        public void DrawOutLine()
+        /// <summary>
+        ///Draw outline of the cell of the board when player chooses it to mark the chip on
+        /// </summary>
+        public void DrawOutLineInBoard()
         {
            
-            float finalX = X;// TOP_LEFT_CELL_X + X * CELL_WIDTH;
-            float finalY = Y;// TOP_LEFT_CELL_Y + Y * (CELL_HEIGHT / 2);
-            if ((int)(Y/60)==9)
+            float finalX = X;
+            float finalY = Y;
+            if ((int)(Y/(CELL_HEIGHT/2))==9)
             {
                 SwinGame.DrawRectangle(Color.Orange, finalX, finalY ,Card.CARD_WIDTH,Card.CARD_HEIGHT);
                 SwinGame.DrawRectangle(Color.Orange, finalX - 1, finalY - 1, Card.CARD_WIDTH, Card.CARD_HEIGHT);
@@ -114,9 +113,11 @@ namespace MyGame
                 SwinGame.DrawRectangle(Color.Orange, finalX + 2, finalY + 2, Card.CARD_WIDTH, CELL_HEIGHT/2);
 
             }
-            //SwinGame.DrawText("(" + X.ToString() + "," + Y.ToString() + ")", Color.Black, finalX + 10, finalY + 32);
         }
-        public void DraOutLineForHand()
+        /// <summary>
+        ///Draw OutLine for cells in hand. 
+        /// </summary>
+        public void DraOutLineInHand()
         {
             SwinGame.DrawRectangle(Color.Orange, X, Y, Card.CARD_WIDTH, Card.CARD_HEIGHT);
             SwinGame.DrawRectangle(Color.Orange, X+1, Y+1, Card.CARD_WIDTH, Card.CARD_HEIGHT);
@@ -124,6 +125,9 @@ namespace MyGame
             SwinGame.DrawRectangle(Color.Orange, X+2, Y+2, Card.CARD_WIDTH, Card.CARD_HEIGHT);
 
         }
+        /// <summary>
+        /// Draw Cell. This one draw the card in hand, the face of the card depends on IsFaceUp.
+        /// </summary>
         public void Draw()
         {
             if (_isFaceUp)
@@ -131,23 +135,27 @@ namespace MyGame
             else
                 CardInCell.DrawFaceDown(X,Y);
         }
+        /// <summary>
+        /// Save information of the cell, including isSelected, isFaceUp, suit and rank.
+        /// </summary>
+        /// <param name="writter"></param>
         public void Save(StreamWriter writter)
-        {
-            //writter.WriteLine(X);
-            //writter.WriteLine(Y);
-            //writter.WriteLine(Column);
-            //writter.WriteLine(Row);
+        { 
             if (Chip == null)
             { writter.WriteLine("null"); }
             else
             {
                 writter.WriteLine(Chip.ChipColor);
             }
-            writter.WriteLine(_selected);
+            writter.WriteLine(Selected);
             writter.WriteLine(_isFaceUp);
             writter.WriteLine(CardInCell.Suit);
             writter.WriteLine(CardInCell.Rank);
         }
+        /// <summary>
+        /// Load each components of the cell from the information which is saved before.
+        /// </summary>
+        /// <param name="reader"></param>
         public void Load(StreamReader reader)
         {
             string[] text = new string[5];
@@ -160,9 +168,9 @@ namespace MyGame
             else
                 Chip = new Chip( (PlayerColors)Enum.Parse(typeof(PlayerColors), text[0]));
             if (text[1] == "True")
-                _selected = true;
+                Selected = true;
             else
-                _selected = false;
+                Selected = false;
             if (text[2] == "True")
                 _isFaceUp = true;
             else

@@ -13,22 +13,22 @@ namespace MyGame
     /// </summary>
     public class Player
     {
-        //private string _name;
         private PlayerColors _color;
         private Hand _playerHand;
         private TheBoard _board;
         private Player _opponent;
         private Chip _chip;
         private int _indexOfPlayer;
-        //public string Name { get => _name; set => _name = value; }
+        private Cell _chosenCellInHand;
         public PlayerColors PlayerColor { get => _color; set => _color = value; }
         public Hand PlayerHand { get => _playerHand; set => _playerHand = value; }
         public TheBoard Board { get => _board; set => _board = value; }
         public Player Opponent { get => _opponent; set => _opponent = value; }
         public Chip Chip { get => _chip; set => _chip = value; }
         public int IndexOfPlayer { get => _indexOfPlayer; set => _indexOfPlayer = value; }
+        public Cell ChosenCellInHand { get => _chosenCellInHand; set => _chosenCellInHand = value; }
 
-        private Cell _chosenCellInHand;
+        
 
         /// <summary>
         /// Initializing the color of the player and the position of the player's hand in the board.
@@ -56,11 +56,6 @@ namespace MyGame
         {
             PlayerHand.DrawCells();
         }
-        //public void AddAndRemoveACellToHand(Cell remove, Cell add)
-        //{
-        //    PlayerHand.RemoveAndPutIN(remove, add);
-
-        //}
         public void RemoveAndAddNewCard(Cell cell, Card card)
         {
             PlayerHand.RemoveACardInChosenCellAndAddNewOne(cell, card);
@@ -78,9 +73,7 @@ namespace MyGame
             foreach (Cell c in Board.Cells)
             {
                 if ((cell.CardInCell.Rank == c.CardInCell.Rank) && (cell.CardInCell.Suit == c.CardInCell.Suit))
-                //((c.Rank == chosenCard.Rank) && (c.Suit == chosenCard.Suit))
                 {
-                    //counting++;
                     if (!c.IsChipAt())
                     {
                         c.MarkCellSelected();
@@ -88,14 +81,14 @@ namespace MyGame
                     }
                 }
             }
+            //After deselecting card in cell that have chip in it,
+            //there are still some selecting cells.
             if (counting == 0)
             {
-                game.DiscardPile.Push(_chosenCellInHand.CardInCell);
-                this.RemoveAndAddNewCard(_chosenCellInHand, game.PlayDeck.DealCard());
-                game.DiscardHistory.Push($"{IndexOfPlayer.ToString()},{_chosenCellInHand.Column.ToString()}");
-                // game.ChangeState(GameState.SelectingCardInHand);
-                _chosenCellInHand.MarkCellUnSelected();
-                //SwinGame.RefreshScreen();
+                game.DiscardPile.Push(ChosenCellInHand.CardInCell);
+                this.RemoveAndAddNewCard(ChosenCellInHand, game.PlayDeck.DealCard());
+                game.DiscardHistory.Push($"{IndexOfPlayer.ToString()},{ChosenCellInHand.Column.ToString()}");
+                ChosenCellInHand.MarkCellUnSelected();
                 return false;
             }
             return true;
@@ -108,14 +101,13 @@ namespace MyGame
         /// <param name="game"></param>
         public void TakeTurn(Point2D pt, GameMaster game)
         {
-            //Cam change the display of draw outline here
             if (game.Currentstate == GameState.SelectingCardInHand)
             {
-                _chosenCellInHand = game.FetchTheCellInHAnd(pt);
-                if (_chosenCellInHand != null)
+                ChosenCellInHand = game.FetchTheCellInHAnd(pt);
+                if (ChosenCellInHand != null)
                 {
-                    _chosenCellInHand.MarkCellSelected();
-                    if (ShowingPossiblCellInTheBoard(_chosenCellInHand, game))
+                    ChosenCellInHand.MarkCellSelected();
+                    if (ShowingPossiblCellInTheBoard(ChosenCellInHand, game))
                         game.ChangeState(GameState.SelectingTheCellInBoard);
                     else
                         game.ChangeState(GameState.SelectingCardInHand);
@@ -126,10 +118,9 @@ namespace MyGame
                 Cell chosenCellInBoard = game.FetchTheCellInBoard(pt);
                 if (chosenCellInBoard != null)
                 {
-                    if (_chosenCellInHand.CardInCell.IsCardJack())
+                    if (ChosenCellInHand.CardInCell.IsCardJack())
                     {
-                        // if (Object.ReferenceEquals(_chosenCellInHand, new JackOneEye(Suit.Clubs, Rank.Jack)))
-                        if (_chosenCellInHand.CardInCell.GetType().Name == "JackOneEye")
+                        if (ChosenCellInHand.CardInCell.GetType().Name == "JackOneEye")
                         {
 
                             if ((chosenCellInBoard.IsChipAt()) && (chosenCellInBoard.Chip.ChipColor == Opponent.PlayerColor))
@@ -138,19 +129,19 @@ namespace MyGame
                             }
 
                         }
-                        if (_chosenCellInHand.CardInCell.GetType().Name == "JackTwoEyes")
+                        if (ChosenCellInHand.CardInCell.GetType().Name == "JackTwoEyes")
                         {
                             if (!chosenCellInBoard.IsChipAt())
                             {
                                 Board.TakingAction(this, chosenCellInBoard, "place");
                             }
                         }
-                        game.DiscardPile.Push(_chosenCellInHand.CardInCell);
-                        this.RemoveAndAddNewCard(_chosenCellInHand, game.PlayDeck.DealCard());
-                        game.DiscardHistory.Push($"{IndexOfPlayer.ToString()},{_chosenCellInHand.Column.ToString()}");
+                        game.DiscardPile.Push(ChosenCellInHand.CardInCell);
+                        this.RemoveAndAddNewCard(ChosenCellInHand, game.PlayDeck.DealCard());
+                        game.DiscardHistory.Push($"{IndexOfPlayer.ToString()},{ChosenCellInHand.Column.ToString()}");
                         game.ChangeState(GameState.Done);
                         game.Update();
-                        _chosenCellInHand.MarkCellUnSelected();
+                        ChosenCellInHand.MarkCellUnSelected();
                         game.ChangeTurn();
                         Opponent.TakeTurn(pt, game);
                         
@@ -166,19 +157,16 @@ namespace MyGame
                                     Board.TakingAction(this, cell, "place");
                                     // cell.PlaceChip(PlayerColor);
                                     cell.MarkCellUnSelected();
-                                    game.DiscardPile.Push(_chosenCellInHand.CardInCell);
-                                    this.RemoveAndAddNewCard(_chosenCellInHand, game.PlayDeck.DealCard());
-                                    game.DiscardHistory.Push($"{IndexOfPlayer.ToString()},{_chosenCellInHand.Column.ToString()}");
+                                    game.DiscardPile.Push(ChosenCellInHand.CardInCell);
+                                    this.RemoveAndAddNewCard(ChosenCellInHand, game.PlayDeck.DealCard());
+                                    game.DiscardHistory.Push($"{IndexOfPlayer.ToString()},{ChosenCellInHand.Column.ToString()}");
 
                                 }
                                 else
                                     cell.MarkCellUnSelected();
                             }
                         }
-
-                        _chosenCellInHand.MarkCellUnSelected();
-
-
+                        ChosenCellInHand.MarkCellUnSelected();
                         game.ChangeState(GameState.Done);
                         game.Update();
                         game.ChangeTurn();
@@ -186,9 +174,6 @@ namespace MyGame
                     }
                 }
             }
-
-       
-            
         }
         public void SaveTheHand(StreamWriter writter)
         {
