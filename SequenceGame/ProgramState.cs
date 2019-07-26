@@ -11,6 +11,5 @@ namespace MyGame
         MENU,
         PLAYINGGAME,
         QUITTING
-
     }
 }

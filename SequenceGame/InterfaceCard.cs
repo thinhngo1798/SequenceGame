@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace MyGame
 {
-    public enum GameState
+    interface InterfaceCard
     {
-        SelectingCardInHand,
-        SelectingTheCellInBoard,
-        Done,
-        TemporaryState,
-        EndGame
+        Card CreateCard();
     }
 }

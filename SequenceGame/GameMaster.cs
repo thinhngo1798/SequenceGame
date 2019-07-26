@@ -69,12 +69,12 @@ namespace MyGame
             BoardDeck.ShuffleDeck();
             PlayDeck = new CardDeck();
             //Create more Jacks for the game!
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 2; i++)
             {
-                PlayDeck.DeckOfCard.Add(new JackOneEye(Suit.Spades, Rank.Jack));
-                PlayDeck.DeckOfCard.Add(new JackOneEye(Suit.Heart, Rank.Jack));
-                PlayDeck.DeckOfCard.Add(new JackTwoEyes(Suit.Clubs, Rank.Jack));
-                PlayDeck.DeckOfCard.Add(new JackTwoEyes(Suit.Diamonds, Rank.Jack));
+                PlayDeck.DeckOfCard.Add(new Card(Suit.Spades, Rank.Jack));
+                PlayDeck.DeckOfCard.Add(new Card(Suit.Heart, Rank.Jack));
+                PlayDeck.DeckOfCard.Add(new Card(Suit.Clubs, Rank.Jack));
+                PlayDeck.DeckOfCard.Add(new Card(Suit.Diamonds, Rank.Jack));
             }
             PlayDeck.ShuffleDeck();
             DiscardPile = new Stack<Card>();
@@ -122,16 +122,12 @@ namespace MyGame
             BoardDeck.ShuffleDeck();
             PlayDeck = new CardDeck();
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 2; i++)
             {
-                PlayDeck.DeckOfCard.Add(new JackOneEye(Suit.Spades, Rank.Jack));
-                PlayDeck.DeckOfCard.Add(new JackOneEye(Suit.Heart, Rank.Jack));
-
-            }
-            for (int i = 0; i < 10; i++)
-            { 
-                PlayDeck.DeckOfCard.Add(new JackTwoEyes(Suit.Clubs, Rank.Jack));
-                PlayDeck.DeckOfCard.Add(new JackTwoEyes(Suit.Diamonds, Rank.Jack));
+                PlayDeck.DeckOfCard.Add(new Card(Suit.Spades, Rank.Jack));
+                PlayDeck.DeckOfCard.Add(new Card(Suit.Heart, Rank.Jack));
+                PlayDeck.DeckOfCard.Add(new Card(Suit.Clubs, Rank.Jack));
+                PlayDeck.DeckOfCard.Add(new Card(Suit.Diamonds, Rank.Jack));
             }
 
             PlayDeck.ShuffleDeck();

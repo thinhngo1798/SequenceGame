@@ -40,6 +40,8 @@
     <Compile Include="CardDeck.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="Chip.cs" />
+    <Compile Include="ClubsCards.cs" />
+    <Compile Include="InterfaceCard.cs" />
     <Compile Include="ProgramState.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="IHaveCells.cs" />
@@ -47,10 +49,7 @@
     <Compile Include="PlayerColors.cs" />
     <Compile Include="GameMaster.cs" />
     <Compile Include="Hand.cs" />
-    <Compile Include="JackOneEye.cs" />
-    <Compile Include="JackTwoEyes.cs" />
     <Compile Include="Player.cs" />
-    <Compile Include="NormalCard.cs" />
     <Compile Include="Rank.cs" />
     <Compile Include="src\GameMain.cs" />
     <Compile Include="Suit.cs" />

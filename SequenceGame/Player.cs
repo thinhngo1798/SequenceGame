@@ -120,7 +120,7 @@ namespace MyGame
                 {
                     if (ChosenCellInHand.CardInCell.IsCardJack())
                     {
-                        if (ChosenCellInHand.CardInCell.GetType().Name == "JackOneEye")
+                        if ((ChosenCellInHand.CardInCell.Suit==Suit.Spades)||(ChosenCellInHand.CardInCell.Suit == Suit.Heart))
                         {
 
                             if ((chosenCellInBoard.IsChipAt()) && (chosenCellInBoard.Chip.ChipColor == Opponent.PlayerColor))
@@ -129,7 +129,7 @@ namespace MyGame
                             }
 
                         }
-                        if (ChosenCellInHand.CardInCell.GetType().Name == "JackTwoEyes")
+                        if ((ChosenCellInHand.CardInCell.Suit == Suit.Diamonds) || (ChosenCellInHand.CardInCell.Suit == Suit.Clubs))
                         {
                             if (!chosenCellInBoard.IsChipAt())
                             {
@@ -155,7 +155,6 @@ namespace MyGame
                                 if (chosenCellInBoard == cell)
                                 {
                                     Board.TakingAction(this, cell, "place");
-                                    // cell.PlaceChip(PlayerColor);
                                     cell.MarkCellUnSelected();
                                     game.DiscardPile.Push(ChosenCellInHand.CardInCell);
                                     this.RemoveAndAddNewCard(ChosenCellInHand, game.PlayDeck.DealCard());

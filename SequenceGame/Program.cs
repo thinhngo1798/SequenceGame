@@ -51,6 +51,7 @@ namespace MyGame
             SwinGame.LoadBitmapNamed("EightClubs", "c08.bmp");
             SwinGame.LoadBitmapNamed("NineClubs", "c09.bmp");
             SwinGame.LoadBitmapNamed("TenClubs", "c10.bmp");
+            SwinGame.LoadBitmapNamed("JackClubs", "c11.bmp");
             SwinGame.LoadBitmapNamed("QueenClubs", "c12.bmp");
             SwinGame.LoadBitmapNamed("KingClubs", "c13.bmp");
             SwinGame.LoadBitmapNamed("AceClubs", "c01.bmp");
@@ -64,6 +65,7 @@ namespace MyGame
             SwinGame.LoadBitmapNamed("EightDiamonds", "d08.bmp");
             SwinGame.LoadBitmapNamed("NineDiamonds", "d09.bmp");
             SwinGame.LoadBitmapNamed("TenDiamonds", "d10.bmp");
+            SwinGame.LoadBitmapNamed("JackDiamonds", "d11.bmp");
             SwinGame.LoadBitmapNamed("QueenDiamonds", "d12.bmp");
             SwinGame.LoadBitmapNamed("KingDiamonds", "d13.bmp");
             SwinGame.LoadBitmapNamed("AceDiamonds", "d01.bmp");
@@ -77,6 +79,7 @@ namespace MyGame
             SwinGame.LoadBitmapNamed("EightSpades", "s08.bmp");
             SwinGame.LoadBitmapNamed("NineSpades", "s09.bmp");
             SwinGame.LoadBitmapNamed("TenSpades", "s10.bmp");
+            SwinGame.LoadBitmapNamed("JackSpades", "s11.bmp");
             SwinGame.LoadBitmapNamed("QueenSpades", "s12.bmp");
             SwinGame.LoadBitmapNamed("KingSpades", "s13.bmp");
             SwinGame.LoadBitmapNamed("AceSpades", "s01.bmp");
@@ -90,14 +93,10 @@ namespace MyGame
             SwinGame.LoadBitmapNamed("EightHeart", "h08.bmp");
             SwinGame.LoadBitmapNamed("NineHeart", "h09.bmp");
             SwinGame.LoadBitmapNamed("TenHeart", "h10.bmp");
+            SwinGame.LoadBitmapNamed("JackHeart", "h11.bmp");
             SwinGame.LoadBitmapNamed("QueenHeart", "h12.bmp");
             SwinGame.LoadBitmapNamed("KingHeart", "h13.bmp");
             SwinGame.LoadBitmapNamed("AceHeart", "h01.bmp");
-
-            SwinGame.LoadBitmapNamed("JackSpades", "s11.bmp");
-            SwinGame.LoadBitmapNamed("JackHeart", "h11.bmp");
-            SwinGame.LoadBitmapNamed("JackClubs", "c11.bmp");
-            SwinGame.LoadBitmapNamed("JackDiamonds", "d11.bmp");
           
             ///Load figures for background:
             SwinGame.LoadBitmapNamed("Background", "Background.png");

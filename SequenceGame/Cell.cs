@@ -181,13 +181,13 @@ namespace MyGame
             {
                 if (suit == Suit.Spades || suit == Suit.Heart)
                 {
-                    CardInCell = new JackOneEye(suit, rank);
+                    CardInCell = new Card(suit, rank);
                 }
                 else
-                    CardInCell = new JackTwoEyes(suit, rank);
+                    CardInCell = new Card(suit, rank);
             }
             else
-                CardInCell = new NormalCard(suit, rank);
+                CardInCell = new Card(suit, rank);
 
         }
 

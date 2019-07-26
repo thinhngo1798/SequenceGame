@@ -22,8 +22,6 @@ namespace MyGame
         Queen,
         King,
         Ace,
-        Jack
-
-
+        Jack,
     }
 }
